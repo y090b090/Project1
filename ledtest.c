@@ -1,4 +1,4 @@
-#include "libMyPeri.a"
+//#include "libMyPeri.a"
 
 int main(int argc , char **argv)
 {
