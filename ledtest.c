@@ -1,11 +1,17 @@
 //#include "libMyPeri.a"
+#include "led.h"
 
-int main(int argc , char **argv)
+
+int main(void)
 {
+    int n=0;
+    doHelp();
     ledLibInit();
-    ledOnOff(8,1);
-    ledStatus();
-    ledOnOff(7,1);
+    for(int n=0;n<8;n++){
+        ledStatus();
+        ledOnOff(n,1);
+        sleep(1);
+    }
     ledLibExit();
     return 0;
 }

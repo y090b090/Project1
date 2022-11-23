@@ -10,6 +10,7 @@ int ledLibInit(void);
 int ledOnOff (int ledNum, int onOff);
 int ledStatus (void);
 int ledLibExit(void);
+void doHelp(void);
 
 #define LED_DRIVER_NAME  "/dev/periled"
 
