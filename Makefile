@@ -1,15 +1,6 @@
-final.elf:main.c 1.o 2.o 3.o myProject.h		
-	gcc -o final.elf main.c 1.o 2.o 3.o
-
-1.o:1.c myProject.h
-	gcc -c 1.c
-
-2.o:2.c myProject.h
-	gcc -c 2.c
-
-3.o:3.c myProject.h
-	gcc -c 3.c
-
+all: led.h led.c
+	arm-linux-gnueabi-gcc -c led.c -o led.o
+	arm-linux-gnueabi-ar rc libMyPeri.a led.o
 
 
 
