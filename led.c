@@ -25,3 +25,8 @@ int ledLibExit(void)
 	ledOnOff (0, 0);
 	close(fd);
 }
+
+int ledStatus(void)
+{
+	return ledValue;
+}
