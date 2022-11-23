@@ -15,7 +15,7 @@ int ledOnOff (int ledNum, int onOff)
 
 int ledLibInit(void)
 {
-	fd=open("/dev/periled", O_WRONLY);
+	fd=open("/dev/periled",O_WRONLY);
 	ledValue = 0;
 }
 
