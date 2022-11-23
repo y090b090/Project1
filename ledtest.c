@@ -1,11 +1,9 @@
-//#include "libMyPeri.a"
 #include "led.h"
 
 
 int main(void)
 {
     int n=0;
-    doHelp();
     ledLibInit();
     for(int n=0;n<8;n++){
         ledStatus();

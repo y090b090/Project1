@@ -2,10 +2,6 @@
 
 static unsigned int ledValue = 0;
 static int fd = 0;
-void doHelp(void)
-{
-printf("test\n");
-}
 
 int ledOnOff (int ledNum, int onOff)
 {
