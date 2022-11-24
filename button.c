@@ -28,11 +28,16 @@ int buttonExit(void)
 
 }
 
-buttonThFunc(void)
+void buttonThFunc(void)
 {
     struct input.event A;
     while(1)
     {
-        read
+        read(fd,&A,sizeof(A));
+        button_MSG_T B;
+        B.messageNum=1;
+        B.keyInput=A.code;
+        B.pressed=A.value;
+        msgsnd(MESSAGE_ID,&B,sizeof(B)-1);
     }
 }
