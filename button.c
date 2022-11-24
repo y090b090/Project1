@@ -23,3 +23,16 @@ pthread_create(&buttonTh_id, NULL, buttonThFunc, NULL);
 return 1;
 }
 
+int buttonExit(void)
+{
+
+}
+
+buttonThFunc(void)
+{
+    struct input.event A;
+    while(1)
+    {
+        read
+    }
+}
