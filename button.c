@@ -13,17 +13,13 @@
 #define HAVE_TO_FIND_1 "N: Name=\"ecube-button\"\n"
 #define HAVE_TO_FIND_2 "H: Handlers=kbd event"
 
-    pthread_t tid;
-    int msgID;
-    char buttonPath[200]={0,};
-    int fd;
-    char inputDevPath[200]={0,};
-
 int probeButtonPath(char *newPath)
 {
     int returnValue = 0; //button에 해당하는 event#을 찾았나?
     int number = 0; //찾았다면 여기에 집어넣자
     FILE *fp = fopen(PROBE_FILE,"rt"); //파일을 열고
+    #define HAVE_TO_FIND_1 "N: Name=\"ecube-button\"\n"
+    #define HAVE_TO_FIND_2 "H: Handlers=kbd event"
     while(!feof(fp)) //끝까지 읽어들인다.
     {
         char tmpStr[200]; //200자를 읽을 수 있게 버퍼
@@ -52,41 +48,29 @@ int probeButtonPath(char *newPath)
 
 int buttonInit(void)    
 {
-    
     if (probeButtonPath(buttonPath) == 0)
     return 0;
     fd=open (buttonPath, O_RDONLY);
     msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
-    pthread_create(&tid, NULL, &buttonThFunc, NULL);
-
-    
-    printf("inputDevPath: %s\r\n",inputDevPath);
-    fd=open(inputDevPath,O_RDONLY);
+    pthread_create(&buttonTh_id, NULL, buttonThFunc, NULL);
     return 1;
 }
 
 int buttonExit(void)
 {
-    pthread_exit(MESSAGE_ID);
-    fd=close(inputDevPath);
-    return 1;
+
 }
 
 void buttonThFunc(void)
 {
-    struct input_event stEvent;
-    int readSize;
+    struct input.event A;
     while(1)
     {
-        readSize=read(fd,&stEvent,sizeof(stEvent));
-        if(readSize!=sizeof(stEvent))
-        {
-            continue;
-        }   
-        BUTTON_MST_T B;
+        read(fd,&A,sizeof(A));
+        button_MSG_T B;
         B.messageNum=1;
-        B.keyInput=stEvent.code;
-        B.pressed=stEvent.value;
-        msgsnd(MESSAGE_ID,&B,sizeof(B)-4,0);
+        B.keyInput=A.code;
+        B.pressed=A.value;
+        msgsnd(MESSAGE_ID,&B,sizeof(B)-1);
     }
 }

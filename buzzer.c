@@ -46,6 +46,7 @@ int buzzerPlaySong(int scale) // 주파수를 받아주고, enable에 1의 값�
 	fdEna=open(EnablePath,O_WRONLY);
 	fdFre=open(FrequencyPath,O_WRONLY);
 	write(fdEna, &"1", 1);
+	
 	dprintf(fdFre, "%d", scale);
     return 0;
 }
