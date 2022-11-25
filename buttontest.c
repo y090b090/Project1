@@ -15,7 +15,7 @@
 int main(void)
 {
     printf("Buttontest Start");
-int buttonInit(void);
+int buttonInit();
 
 struct input_event stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
