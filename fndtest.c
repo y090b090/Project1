@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	fndMode(555555, 't');
+	fndMode(0, 't');
        	sleep(3);	
 	fndDisp(101010, 0);
 	sleep(3);
