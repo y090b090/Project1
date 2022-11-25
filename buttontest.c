@@ -8,6 +8,7 @@
 #include <sys/msg.h>
 #include "button.h"
 #include "led.h"
+#include <pthread.h>
 
 int main(void)
 {

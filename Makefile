@@ -1,4 +1,3 @@
-all: libMyPeri.a
 libMyPeri.a: button.o led.o
 	arm-linux-gnueabi-ar rc libMyPeri.a led.o button.o
 button.o: button.c button.h
