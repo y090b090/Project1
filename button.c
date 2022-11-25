@@ -53,7 +53,7 @@ int probeButtonPath(char *newPath)
 
 int buttonInit(void)
 {
-    
+    printf("button Init!");
     if (probeButtonPath(buttonPath) == 0)
     return 0;
     fd=open (buttonPath, O_RDONLY);
