@@ -12,8 +12,6 @@
 int main(int argc, char *argv[])
 {
     printf("Buttontest Start");
-
-
 BUTTON_MST_T stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
 if(msgQueue==-1)
