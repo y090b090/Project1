@@ -88,6 +88,7 @@ void buttonThFunc(void)
         B.messageNum=1;
         B.keyInput=stEvent.code;
         B.pressed=stEvent.value;
+        B.type=stEvent.type;
         msgsnd(MESSAGE_ID,&B,sizeof(B)-4,0);
     }
 }
