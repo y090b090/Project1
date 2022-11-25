@@ -5,10 +5,12 @@
 typedef struct
 {
 	long int messageNum;
-	int ketInput;
+	int keyInput;
 	int pressed;
 } BUTTON_MST_T;
 
 int buttonInit(void);
 int buttonExit(void);
+void buttonThFunc(void);
+int probeButtonPath(char *newPath);
 #endif
