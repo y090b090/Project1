@@ -15,6 +15,7 @@
 int main(void)
 {
 buttonInit;
+printf("Buttontest Start");
 struct input_event stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
 if(msgQueue==-1)
