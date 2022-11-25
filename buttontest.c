@@ -14,8 +14,9 @@
 //PPT에 제시된 "이 파일을 까보면 event? 의 숫자를 알수 있다"는 바로 그 파일
 int main(void)
 {
+    printf("Buttontest Start");
 int buttonInit(void);
-printf("Buttontest Start");
+
 struct input_event stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
 if(msgQueue==-1)
