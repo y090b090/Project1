@@ -52,13 +52,13 @@ int buzzerPlaySong(int scale) // 주파수를 받아주고, enable에 1의 값�
 
 int buzzerStopSong(void) // enable에 0의 값을 넣어서
 {
-write(fdEna, &"0", 1);
-
+	write(fdEna, &"0", 1);
 	return 0;
 }
 
 int buzzerExit(void)
 {
+    write(fdEna, &"0", 1);
     close(fdFre);
     close(fdEna);
 

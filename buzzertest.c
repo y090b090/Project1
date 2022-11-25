@@ -8,6 +8,5 @@ int main(void){
     sleep(1);
     buzzerPlaySong(440);
     sleep(1);
-    buzzerStopSong();
     buzzerExit();
 }
