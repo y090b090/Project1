@@ -7,6 +7,43 @@
 #include "fnd.h"
 #define FND_DRIVER_NAME "/dev/perifnd"
 
+int fndMode(int num, char mode)
+{
+	if(mode==MODE_STATIC_DIS)
+	{
+		fndDisp(num,0);
+	}
+	else if(mode==MODE_TIME_DIS)
+	{
+	struct tm *ptmcur;
+	time_t tTime;
+	if(-1==time(&tTime))
+		return-1;
+	ptmcur=localtime(&tTime);
+	
+	num=ptmcur->tm_hour*10000;
+	num+=ptmcur->tm_min*100;
+	num+=ptmcur->tm_sec;
+	
+	fndDisp(num,0b1010);
+	}
+
+	else if(mode==MODE_COUNT_DIS)
+	{
+		int counter=0;
+	
+		while(1)
+		{
+		if(!fndDisp(counter,0))
+		break;
+	counter++;
+	sleep(1);
+	if(counter>num)
+		break;
+		}
+	}
+}
+
 int fndDisp(int num,int dotflag)//0-999999숫자,비트로인코딩된doton/off
 {
 	int fd;
