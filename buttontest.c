@@ -7,6 +7,7 @@
 #include <sys/ioctl.h> // for ioctl
 #include <sys/msg.h>
 #include "button.h"
+#include "led.h"
 
 int main(void)
 {
