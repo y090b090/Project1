@@ -51,7 +51,7 @@ int probeButtonPath(char *newPath)
     return returnValue;
 }
 
-int buttonInit(void)    
+int buttonInit(void)
 {
     
     if (probeButtonPath(buttonPath) == 0)
