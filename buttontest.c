@@ -5,8 +5,8 @@
 #include <unistd.h> // for open/close
 #include <fcntl.h> // for O_RDWR
 #include <sys/ioctl.h> // for ioctl
-#include "button.h"
 #include <sys/msg.h>
+#include "button.h"
 // first read input device
 #define INPUT_DEVICE_LIST "/dev/input/event"
 //실제 디바이스 드라이버 노드파일: 뒤에 숫자가 붙음., ex)/dev/input/event5
@@ -14,7 +14,7 @@
 //PPT에 제시된 "이 파일을 까보면 event? 의 숫자를 알수 있다"는 바로 그 파일
 int main(void)
 {
-buttonInit();
+buttonInit;
 struct input_event stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
 if(msgQueue==-1)
@@ -41,6 +41,6 @@ if ( stEvent.value ) printf("pressed\n");
 else printf("released\n");
 }
 }
-buttonExit();
+buttonExit;
 
 }
