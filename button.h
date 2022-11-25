@@ -7,6 +7,7 @@ typedef struct
 	long int messageNum;
 	int keyInput;
 	int pressed;
+	unsigned short type;
 } BUTTON_MST_T;
 
 

@@ -11,22 +11,22 @@
 int main(void)
 {
     printf("Buttontest Start");
-int buttonInit();
 
-struct input_event stEvent;
+
+BUTTON_MST_T stEvent;
 int msgQueue=msgget(MESSAGE_ID,IPC_CREAT|0666);
 if(msgQueue==-1)
 {
     printf("Cannot get msgQueueID,Return! \r\n");
     return -1;
 }
-
+int buttonInit();
 while(1){
 msgrcv(msgQueue,&stEvent,sizeof(stEvent),0,IPC_NOWAIT);
 if(stEvent.type==EV_KEY)
 {
 printf("EV_KEY(");
-switch(stEvent.code)
+switch(stEvent.keyInput)
 {
 case KEY_VOLUMEUP: printf("Volume up key):"); break;
 case KEY_HOME: printf("Home key):"); break;
@@ -35,7 +35,7 @@ case KEY_BACK: printf("Back key):"); break;
 case KEY_MENU: printf("Menu key):"); break;
 case KEY_VOLUMEDOWN: printf("Volume down key):"); break;
 }
-if ( stEvent.value ) printf("pressed\n");
+if ( stEvent.pressed ) printf("pressed\n");
 else printf("released\n");
 }
 }
