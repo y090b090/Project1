@@ -1,25 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <linux/input.h>
-#include <unistd.h>
-#include <fcntl.h> 
-#include <sys/ioctl.h> 
-#include <sys/msg.h>
-#include <pthread.h>
 #include "button.h"
 
-#define INPUT_DEVICE_LIST "/dev/input/event"
-#define PROBE_FILE "/proc/bus/input/devices" 
-#define HAVE_TO_FIND_1 "N: Name=\"ecube-button\"\n"
-#define HAVE_TO_FIND_2 "H: Handlers=kbd event"
-
-    pthread_t tid;
-    int msgID;
-    char buttonPath[200]={0,};
-    int fd;
-    char inputDevPath[200]={0,};
-
+char buttonPath[200]={0,};
+int fd,msgID;
+pthread_t buttonTh_id;
 int probeButtonPath(char *newPath)
 {
     int returnValue = 0; //button에 해당하는 event#을 찾았나?
@@ -46,49 +29,53 @@ int probeButtonPath(char *newPath)
     }
     }
     fclose(fp);
-    if (returnValue == 1)
-    sprintf (newPath,"%s%d",INPUT_DEVICE_LIST,number);
+    if (returnValue == 1){
+        sprintf (newPath,"%s%d",INPUT_DEVICE_LIST,number);
+    }
+   
     return returnValue;
 }
 
+
 int buttonInit(void)
 {
-    printf("button Init!");
-    if (probeButtonPath(buttonPath) == 0)
-    return 0;
+    printf("hello\n");
+    if (probeButtonPath(buttonPath) == 0){
+        printf("error\n");
+        return 0;
+    }
+        
     fd=open (buttonPath, O_RDONLY);
     msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
-    pthread_create(&tid, NULL, &buttonThFunc, NULL);
-
-    
-    printf("inputDevPath: %s\r\n",inputDevPath);
-    fd=open(inputDevPath,O_RDONLY);
+    if(msgID == -1){
+            printf("cannot find\n");
+            return 1;
+    }
+    pthread_create(&buttonTh_id, NULL, &buttonThFunc, NULL);
     return 1;
 }
+
 
 int buttonExit(void)
 {
-    pthread_exit(MESSAGE_ID);
-    fd=close(inputDevPath);
-    return 1;
+    pthread_join(buttonTh_id,NULL);
+    return 0;
 }
 
-void buttonThFunc(void)
+void* buttonThFunc(void *arg)
 {
-    struct input_event stEvent;
     int readSize;
+    B.messageNum=1;
     while(1)
     {
-        readSize=read(fd,&stEvent,sizeof(stEvent));
-        if(readSize!=sizeof(stEvent))
-        {
+        readSize=read(fd,&A,sizeof(A));
+        if(readSize!=sizeof(A)){
             continue;
-        }   
-        BUTTON_MST_T B;
-        B.messageNum=1;
-        B.keyInput=stEvent.code;
-        B.pressed=stEvent.value;
-        B.type=stEvent.type;
-        msgsnd(MESSAGE_ID,&B,sizeof(B)-4,0);
+        }
+        B.keyInput=A.code;
+        B.pressed=A.value;
+        B.type=A.type;
+        msgsnd(msgID,&B,sizeof(B)-sizeof(long int),0);
     }
+    close(fd);
 }
