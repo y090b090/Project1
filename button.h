@@ -20,6 +20,7 @@
 struct input_event A;
 struct BUTTON_MST_T B;
 
+
 struct  BUTTON_MST_T
 {
 	long int messageNum;

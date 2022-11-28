@@ -8,6 +8,3 @@ buzzer.o : buzzer.h buzzer.c
 	arm-linux-gnueabi-gcc -c buzzer.c -o buzzer.o
 fnd.o : fnd.h fnd.c
 	arm-linux-gnueabi-gcc -c fnd.c -o fnd.o
-
-
-

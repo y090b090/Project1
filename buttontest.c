@@ -8,6 +8,7 @@ int main()
             printf("cannot find\n");
             return 1;
     }
+    
     while(1){
         int retmsg =0;
         retmsg=msgrcv(msgID,&B,sizeof(B)-sizeof(long int),0,0);
