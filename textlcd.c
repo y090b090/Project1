@@ -8,7 +8,7 @@ int lcdtextwrite(const char *str1,const char *str2, int lineFlag){
     memset(&stlcd,0,sizeof(stTextLCD));//구조체초기화
     linenum=lineFlag;
     printf("linenum:%d\n",linenum);
-    if(linenum==0){
+    /*if(linenum==0){
         stlcd.cmdData=CMD_DATA_WRITE_BOTH_LINE;
         len1 = strlen(str1);
         if ( len1 > COLUMN_NUM)
@@ -20,9 +20,9 @@ int lcdtextwrite(const char *str1,const char *str2, int lineFlag){
         memcpy(stlcd.TextData[stlcd.cmdData - 1], str2, COLUMN_NUM);
         else
         memcpy(stlcd.TextData[stlcd.cmdData - 1], str2, len2);
-    }
+    }*/
         
-    else if(linenum==1){
+    if(linenum==1){
         stlcd.cmdData=CMD_DATA_WRITE_LINE_1;
         len1 = strlen(str1);
         if ( len1 > COLUMN_NUM)
