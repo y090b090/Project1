@@ -2,14 +2,6 @@
 #define __TEXTLCD_DRV_H__
 #define LINE_NUM 2
 #define COLUMN_NUM 16
-typedef struct TextLCD_tag
-{
-unsigned char cmd; //
-unsigned char cmdData;
-unsigned char reserved[2];
-char TextData[LINE_NUM][LINE_BUFF_NUM];
-}stTextLCD,*pStTextLCD;
-
 
 #define LINE_BUFF_NUM (COLUMN_NUM + 4) // for dummy
 #define MODE_CMD 0
@@ -35,3 +27,15 @@ char TextData[LINE_NUM][LINE_BUFF_NUM];
     
 #define CMD_TEST_GPIO_HIGH 0x30
 #define CMD_TEST_GPIO_LOW 0x31
+
+typedef struct TextLCD_tag
+{
+unsigned char cmd; //
+unsigned char cmdData;
+unsigned char reserved[2];
+char TextData[LINE_NUM][LINE_BUFF_NUM];
+}stTextLCD,*pStTextLCD;
+
+#endif
+
+

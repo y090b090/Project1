@@ -12,7 +12,7 @@ perror("Argsnumberislessthan2\n");
 doHelp();
 return 1;
 }
-linenum=strtol(argv[1],NULL,10);
+linenum = strtol(argv[1],NULL,10);
 printf("linenum:%d\n",linenum);
 if(linenum==1)
 stlcd.cmdData=CMD_DATA_WRITE_LINE_1;
