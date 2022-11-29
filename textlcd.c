@@ -17,9 +17,9 @@ int lcdtextwrite(const char *str1,const char *str2,int lineFlag){
         memcpy(stlcd.TextData[stlcd.cmdData - 1], str1, len1);
         len2 = strlen(str2);
         if ( len2 > COLUMN_NUM)
-        memcpy(stlcd.TextData[stlcd.cmdData - 1], str2, COLUMN_NUM);
+        memcpy(stlcd.TextData[stlcd.cmdData + COLUMN_NUM - 1], str2, COLUMN_NUM);
         else
-        memcpy(stlcd.TextData[stlcd.cmdData - 1], str2, len2);
+        memcpy(stlcd.TextData[stlcd.cmdData + COLUMN_NUM - 1], str2, len2);
     }
         
     else if(linenum==1){
