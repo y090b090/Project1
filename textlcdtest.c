@@ -3,5 +3,5 @@
 
 int main(int argc , char **argv)
 {
-    lcdtextwrite("he","hi",0);
+    lcdtextwrite("he","hi", 2);
 }
