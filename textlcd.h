@@ -42,6 +42,6 @@ unsigned char reserved[2];
 char TextData[LINE_NUM][LINE_BUFF_NUM];
 }stTextLCD,*pStTextLCD;
 
-int lcdtextwrite(int lineFlag,const char *str1,const char *str2);
+int lcdtextwrite(const char *str1,const char *str2,int lineFlag);
 
 #endif
