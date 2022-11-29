@@ -1,6 +1,6 @@
 #include "textlcd.h"
 
-int lcdtextwrite(const char *str1,const char *str2, int lineFlag){
+int lcdtextwrite(int lineFlag, const char *str1,const char *str2){
     unsigned int linenum=0;
     stTextLCD stlcd;//stTextLCD구조체를가지고드라이버와인터페이스
     int fd;
