@@ -8,7 +8,7 @@ buzzer.o : buzzer.h buzzer.c
 	arm-linux-gnueabi-gcc -c buzzer.c -o buzzer.o
 fnd.o : fnd.h fnd.c
 	arm-linux-gnueabi-gcc -c fnd.c -o fnd.o
-lcdtext.o : lcdtext.c lcdtext.h
-	arm-linux-gnueabi-gcc -c lcdtext.c -o lcdtext.o
+textlcd.o : textlcd.c textlcd.h
+	arm-linux-gnueabi-gcc -c textlcd.c -o textlcd.o
 colorled.o : colorled.c colorled.h
 	arm-linux-gnueabi-gcc -c colorled.c -o colorled.o
