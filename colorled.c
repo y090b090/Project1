@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <usintd.h>
+#include <unistd.h>
 #include <string.h>
 
 #define COLOR_LED_DEV_R_ "/sys/class/pwm/pwmchip0/"
@@ -129,12 +129,9 @@ pwmStartAll();
 return 0; 
 }
 
-int pwmLedOn(int r,int g,int b) {
-
-
-pwmSetPercent(r,0);
+int pwmLedOn(int b,int g,int r) {
+pwmSetPercent(b,0);
 pwmSetPercent(g,1);
-pwmSetPercent(b,2);
-
+pwmSetPercent(r,2);
 return 0;
 }
