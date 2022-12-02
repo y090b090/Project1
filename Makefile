@@ -1,5 +1,5 @@
-libMyPeri.a : led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o
-        arm-linux-gnueabi-ar rc libMyPeri.a led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o
+libMyPeri.a : led.o buzzer.o fnd.o button.o textlcd.o colorled.o 
+        arm-linux-gnueabi-ar rc libMyPeri.a led.o buzzer.o fnd.o button.o textlcd.o colorled.o 
 button.o : button.c button.h
         arm-linux-gnueabi-gcc -c button.c -o button.o -lpthread
 led.o : led.h led.c
@@ -12,5 +12,3 @@ textlcd.o : textlcd.c textlcd.h
         arm-linux-gnueabi-gcc -c textlcd.c -o textlcd.o
 colorled.o : colorled.c colorled.h
         arm-linux-gnueabi-gcc -c colorled.c -o colorled.o
-temperature.o : temperature.c temperature.h
-        arm-linux-gnueabi-gcc -c temperature.c -o temperature.o
