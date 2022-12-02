@@ -13,4 +13,4 @@ textlcd.o : textlcd.c textlcd.h
 colorled.o : colorled.c colorled.h
         arm-linux-gnueabi-gcc -c colorled.c -o colorled.o
 temperature.o : temperature.c temperature.h
-        arm-linux-gnueabi-gcc -c temperature -o temperature.o
+        arm-linux-gnueabi-gcc -c temperature.c -o temperature.o
