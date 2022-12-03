@@ -1,10 +1,19 @@
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+#include <linux/spi/spidev.h>
+
 #include "temperature.h"
 
 int main(int argc, char **argv){ 
-char *buffer; int file;
-file=spi_init("/dev/spidev1.0"); //dev
-buffer=(char *)spi_read_lm74(file); 
-close(file);
+
 int value = 0; //13비트 Big Endian Signed Int를 16비트 Little Endian Signed Int로 바꾼다
 value = (buffer[1] >> 3); //Last 3bit: Trashes 날려버리는 함수: 남은 5비트만 value에 더해짐
 value += (buffer[0]) << 5; //위에서 5비트 더한거에 상위 8비트 (= 13비트) 를 원하는 값으로 채움
