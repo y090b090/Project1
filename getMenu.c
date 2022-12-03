@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "textlcd.h"
+#include "temperature.h"
 
 int printTime(void) //시간 출력 함수
 {
@@ -45,7 +46,12 @@ int printTime(void) //시간 출력 함수
 
 int main(void)
 {
-
-    printTime();
+    char cTemp[100];
+    getcTemp(cTemp);
+    while(1)
+    {
+        lcdtextwrite("gfd",cTemp,2);
+        usleep(1000);
+    }
 
 }
