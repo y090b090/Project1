@@ -2,11 +2,15 @@
 
 int main(void){
     buzzerInit();
-    buzzerPlaySong(520);
+    buzzerPlaySong(70);
     sleep(1);
-    buzzerPlaySong(220);
+    buzzerPlaySong(500);
     sleep(1);
-    buzzerPlaySong(440);
+    buzzerPlaySong(460);
+    sleep(1);
+    buzzerPlaySong(357);
+    sleep(1);
+    buzzerPlaySong(44);
     sleep(1);
     buzzerExit();
 }
