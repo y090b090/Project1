@@ -46,12 +46,8 @@ int printTime(void) //시간 출력 함수
 
 int main(void)
 {
-    char cTemp[100];
+    char cTemp[sizeof(double)];
     getcTemp(cTemp);
-    while(1)
-    {
-        lcdtextwrite("gfd",cTemp,2);
-        usleep(1000);
-    }
+    lcdtextwrite("gfd",cTemp,2);
 
 }
