@@ -141,21 +141,9 @@ void fb_pmvleft(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	if(y==575){
-		break;
-	}
 	fb_playererase();
 	y=y+5;
 	fb_playerdraw();
-	// fb clear - black
-    for(coor_y = y-15; coor_y < y+15; coor_y++) 
-	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
-        for(coor_x = 0; coor_x < 30; coor_x++)
-        {
-            *ptr++  =   0xFFFFFF;
-        }
-    }
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
@@ -166,21 +154,9 @@ void fb_pmvright(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	if(y==15){
-		break;
-	}
 	fb_playererase();
 	y=y-5;
 	fb_playerdraw();
-	// fb clear - black
-    for(coor_y = y; coor_y < y+30; coor_y++) 
-	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
-        for(coor_x = 0; coor_x < 30; coor_x++)
-        {
-            *ptr++  =   0xFFFFFF;
-        }
-    }
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
