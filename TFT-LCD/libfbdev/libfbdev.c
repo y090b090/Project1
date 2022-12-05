@@ -14,8 +14,8 @@
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
 static int fbWidth=0;	//현재 하드웨어의 사이즈
-static int x=1024-30;
-static int y=285;
+static int x=1024;
+static int y=300;
 static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
@@ -106,9 +106,9 @@ void fb_playerdraw(void)
 	int coor_x = 0;
 	
 	// fb clear - black
-    for(coor_y = y; coor_y < y+30; coor_y++) 
+    for(coor_y = y-15; coor_y < y+15; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
             *ptr++  =   0xFFFFFF;
@@ -124,9 +124,9 @@ void fb_playererase(void)
 	int coor_y = 0;
 	int coor_x = 0;
 	// fb clear - black
-    for(coor_y = y; coor_y < y+30; coor_y++) 
+    for(coor_y = y-15; coor_y < y+15; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
             *ptr++  =   0x000000;
@@ -144,15 +144,6 @@ void fb_pmvleft(void)
 	fb_playererase();
 	y=y+5;
 	fb_playerdraw();
-	// fb clear - black
-    for(coor_y = y; coor_y < y+30; coor_y++) 
-	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
-        for(coor_x = 0; coor_x < 30; coor_x++)
-        {
-            *ptr++  =   0xFFFFFF;
-        }
-    }
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
@@ -166,15 +157,6 @@ void fb_pmvright(void)
 	fb_playererase();
 	y=y-5;
 	fb_playerdraw();
-	// fb clear - black
-    for(coor_y = y; coor_y < y+30; coor_y++) 
-	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
-        for(coor_x = 0; coor_x < 30; coor_x++)
-        {
-            *ptr++  =   0xFFFFFF;
-        }
-    }
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
@@ -182,6 +164,24 @@ void fb_pmvright(void)
 }
 
 
+void fb_enemydraw(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+	
+	// fb clear - black
+    for(coor_y = y-50; coor_y < y+50; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
+        for(coor_x = 0; coor_x < 100; coor_x++)
+        {
+            *ptr++  =   0xFFFFFF;
+        }
+    }
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
 
 void fb_doubleBufSwap(void)
 {

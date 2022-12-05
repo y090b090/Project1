@@ -22,6 +22,7 @@ int main(void){
     int x_init=1024-30;
     int y_init=285;
     fb_playerdraw();
+    fb_enemydraw();
     for(int i=0;i<30;i++)
         fb_pmvleft();
     for(int i=0;i<30;i++)
