@@ -1,5 +1,5 @@
-libMyPeri.a : led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o
-	arm-linux-gnueabi-ar rc libMyPeri.a led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o
+libMyPeri.a : led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o accelMagGyro.o
+	arm-linux-gnueabi-ar rc libMyPeri.a led.o buzzer.o fnd.o button.o textlcd.o colorled.o temperature.o accelMagGyro.o
 button.o : button.c button.h
 	arm-linux-gnueabi-gcc -c button.c -o button.o -lpthtread
 led.o : led.h led.c
@@ -14,3 +14,5 @@ colorled.o : colorled.c colorled.h
 	arm-linux-gnueabi-gcc -c colorled.c -o colorled.o
 temperature.o: temperature.c temperature.h
 	arm-linux-gnueabi-gcc -c temperature.c -o temperature.o
+accelMagGyro.o: accelMagGyro.c accelMagGyro.h
+	arm-linux-gnueabi-gcc -c accelMagGyro.c -o accelMagGyro.o

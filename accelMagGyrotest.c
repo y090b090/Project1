@@ -4,7 +4,7 @@ int main (void)
 {	
 	while(1){
 		acc();
-		Mag();
+		Mag();	
 		Gyro();
 		
 	sleep(1);
