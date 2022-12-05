@@ -12,4 +12,5 @@ void fb_doubleBufSwap(void);
 void fb_playerdraw(void);
 void fb_playererase(void);
 void fb_pmvleft(void);
+void fb_pmvright(void);
 #endif

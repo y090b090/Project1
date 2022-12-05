@@ -14,7 +14,8 @@
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
 static int fbWidth=0;	//현재 하드웨어의 사이즈
-static int oldx,oldy,newx,newy=-1;
+static int x=1024-30;
+static int y=285;
 static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
@@ -103,17 +104,11 @@ void fb_playerdraw(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	if(oldx==-1&oldy==-1)
-		{
-			oldx=1024-30;
-			oldy=285;
-			newx=1024-30;
-			newy=285;
-		}	
+	
 	// fb clear - black
-    for(coor_y = newy; coor_y < newy+30; coor_y++) 
+    for(coor_y = y; coor_y < y+30; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+newx;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
             *ptr++  =   0xFFFFFF;
@@ -129,9 +124,9 @@ void fb_playererase(void)
 	int coor_y = 0;
 	int coor_x = 0;
 	// fb clear - black
-    for(coor_y = oldy; coor_y < oldy+30; coor_y++) 
+    for(coor_y = y; coor_y < y+30; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+newx;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
             *ptr++  =   0x000000;
@@ -147,23 +142,46 @@ void fb_pmvleft(void)
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
-	newy=oldy+5;
+	y=y+5;
 	fb_playerdraw();
 	// fb clear - black
-    for(coor_y = newy; coor_y < newy+30; coor_y++) 
+    for(coor_y = y; coor_y < y+30; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+newx;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
-            *ptr++  =   0x000000;
+            *ptr++  =   0xFFFFFF;
         }
     }
 	usleep(50000);
-	oldy=newy;
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
 }
+
+void fb_pmvright(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+	fb_playererase();
+	y=y-5;
+	fb_playerdraw();
+	// fb clear - black
+    for(coor_y = y; coor_y < y+30; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x;
+        for(coor_x = 0; coor_x < 30; coor_x++)
+        {
+            *ptr++  =   0xFFFFFF;
+        }
+    }
+	usleep(50000);
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
+
+
 
 void fb_doubleBufSwap(void)
 {

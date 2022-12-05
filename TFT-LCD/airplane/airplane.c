@@ -17,11 +17,14 @@ int main(void){
 		printf ("FrameBuffer Init Failed\r\n");
 		return 0;
 	}
-    
+    fb_clear();
     
     int x_init=1024-30;
     int y_init=285;
     fb_playerdraw();
-   
+    for(int i=0;i<30;i++)
+        fb_pmvleft();
+    for(int i=0;i<30;i++)
+        fb_pmvright();
     fb_close();
 }
