@@ -141,6 +141,9 @@ void fb_pmvleft(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
+	if(y==575){
+		break;
+	}
 	fb_playererase();
 	y=y+5;
 	fb_playerdraw();
@@ -163,6 +166,9 @@ void fb_pmvright(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
+	if(y==15){
+		break;
+	}
 	fb_playererase();
 	y=y-5;
 	fb_playerdraw();
