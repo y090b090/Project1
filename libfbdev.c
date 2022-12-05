@@ -11,9 +11,7 @@
 #include <pthread.h>
 
 #define FBDEV_FILE "/dev/fb0"
-#define MUTEX_ENABLE 0
 
-pthread_t tid=0;
 
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
@@ -109,7 +107,6 @@ void fb_playerdraw(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	
 	// fb clear - black
     for(coor_y = y-15; coor_y < y+15; coor_y++) 
 	{
@@ -122,6 +119,7 @@ void fb_playerdraw(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+
 }
 
 void fb_playererase(void)
@@ -143,28 +141,32 @@ void fb_playererase(void)
 }
 
 void fb_pmvleft(void)
-{	if(y<585)
+{	
+	
+	if(y<585)
 	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
-	y=y+5;
+	y=y+10;
 	fb_playerdraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
 	}
+	
 }
 
 void fb_pmvright(void)
 {
+	
 	if(y>15)
 	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
-	y=y-5;
+	y=y-10;
 	fb_playerdraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -192,7 +194,11 @@ void fb_enemydraw(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
-	pthread_create(&tid,NULL,&fb_enemymove,NULL);
+	if(pthread_mutex_init(&lock,NULL)!=0)
+	{
+		return ;
+	}
+	//pthread_create(&tid,NULL,&fb_enemymove,NULL);
 }
 
 void fb_enemyerase(void)
@@ -212,25 +218,48 @@ void fb_enemyerase(void)
 	#endif
 }
 
-void* fb_enemymove(void *arg)
-{
-	while(1)
+void fb_emvleft(void)
+{	
+	
+	if(ey<550)
 	{
-		int random=rand()%2;
-		fb_enemyerase();
-		if(random==0)
-			if(ey<550)
-			{
-				ey=ey+5;
-				fb_enemydraw();
-			}
-		else
-			if(ey>50){
-				ey=ey-5;
-				fb_enemydraw();
-			}
-		usleep(50000);
+	fb_enemyerase();
+	ey=ey+15;
+	fb_enemydraw();
+	usleep(50000);
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
 	}
+	
+}
+
+void fb_emvright(void)
+{
+	
+	if(ey>50)
+	{
+	fb_enemyerase();
+	ey=ey-15;
+	fb_enemydraw();
+	usleep(50000);
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+	}
+	
+}
+
+void* fb_enemymove(void)
+{
+		
+		int random=rand()%2;
+		if(random==0)
+			fb_emvleft();
+		else
+			fb_emvright();
+		
+	
 }
 
 void fb_doubleBufSwap(void)
