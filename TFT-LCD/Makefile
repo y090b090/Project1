@@ -13,6 +13,6 @@ library: $(LIBRARY_DIR) libjpeg/libjpeg.a
 
 $(LIBRARY_DIR):
 	$(MAKE) -C $@
-	arm-linux-gnueabi-ar rc libmylib.a $@/$@.o
+	arm-linux-gnueabi-ar rc libmylib.a $@/$@.o 
 
 .PHONY: all $(LIBRARY_DIR) $(APPS_DIR) library apps

@@ -14,4 +14,6 @@ void fb_playererase(void);
 void fb_pmvleft(void);
 void fb_pmvright(void);
 void fb_enemydraw(void);
+void* fb_enemymove(void *arg);
+void fb_enemyerase(void);
 #endif

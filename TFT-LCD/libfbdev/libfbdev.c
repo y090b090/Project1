@@ -8,14 +8,19 @@
 #include <sys/mman.h>
 #include <linux/fb.h>   // for fb_var_screeninfo, FBIOGET_VSCREENINFO
 #include "libfbdev.h"
+#include <pthread.h>
 
 #define FBDEV_FILE "/dev/fb0"
+#define MUTEX_ENABLE 0
+
+pthread_t tid=0;
 
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
 static int fbWidth=0;	//현재 하드웨어의 사이즈
 static int x=1024;
 static int y=300;
+static int ey=300;
 static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
@@ -138,7 +143,8 @@ void fb_playererase(void)
 }
 
 void fb_pmvleft(void)
-{
+{	if(y<585)
+	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
@@ -148,10 +154,13 @@ void fb_pmvleft(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+	}
 }
 
 void fb_pmvright(void)
 {
+	if(y>15)
+	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
@@ -161,16 +170,18 @@ void fb_pmvright(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+	}
+	
 }
 
 
-void fb_enemydraw(void)
+/*void fb_enemydraw(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
 	
 	// fb clear - black
-    for(coor_y = y-50; coor_y < y+50; coor_y++) 
+    for(coor_y = ey-50; coor_y < ey+50; coor_y++) 
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
         for(coor_x = 0; coor_x < 100; coor_x++)
@@ -181,8 +192,42 @@ void fb_enemydraw(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+	pthread_create(&tid,NULL,&fb_enemymove,NULL);
 }
 
+void fb_enemyerase(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+    for(coor_y = ey-50; coor_y < ey+50; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
+        for(coor_x = 0; coor_x < 100; coor_x++)
+        {
+            *ptr++  =   0x000000;
+        }
+    }
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
+
+void* fb_enemymove(void *arg)
+{
+	while(1)
+	{
+		int random=rand()%2;
+		fb_enemyerase();
+		if(random==0)
+			if(ey<550)
+				ey=ey+5;
+		else
+			if(ey>50)
+				ey=ey-5;
+		usleep(50000);
+	}
+}
+*/
 void fb_doubleBufSwap(void)
 {
 	if (currentEmptyBufferPos == 0)
