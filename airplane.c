@@ -31,6 +31,8 @@ int main(void){
         else if(Gyro()==1)
             fb_pmvright();
         fb_enemymove();
+       fb_bulleterase();
+        fb_bulletmove();
     }
    
     fb_close();

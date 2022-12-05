@@ -20,4 +20,7 @@ void* fb_enemymove(void);
 void fb_enemyerase(void);
 void fb_emvleft(void);
 void fb_emvright(void);
+void fb_bulletshow(void);
+void fb_bulleterase(void);
+void fb_bulletmove(void);
 #endif

@@ -12,17 +12,23 @@
 
 #define FBDEV_FILE "/dev/fb0"
 
+struct {
+	int exist;
+	int bx;
+	int by;
+}bullet[100];
 
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
 static int fbWidth=0;	//현재 하드웨어의 사이즈
 static int x=1024;
 static int y=300;
+static int ex=0;
 static int ey=300;
 static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
-
+static int bulletnum=0;
 
 #define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
 #define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
@@ -143,12 +149,12 @@ void fb_playererase(void)
 void fb_pmvleft(void)
 {	
 	
-	if(y<585)
+	if(y<580)
 	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
-	y=y+10;
+	y=y+20;
 	fb_playerdraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -161,12 +167,12 @@ void fb_pmvleft(void)
 void fb_pmvright(void)
 {
 	
-	if(y>15)
+	if(y>20)
 	{
 	int coor_y = 0;
 	int coor_x = 0;
 	fb_playererase();
-	y=y-10;
+	y=y-20;
 	fb_playerdraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -194,11 +200,6 @@ void fb_enemydraw(void)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
-	if(pthread_mutex_init(&lock,NULL)!=0)
-	{
-		return ;
-	}
-	//pthread_create(&tid,NULL,&fb_enemymove,NULL);
 }
 
 void fb_enemyerase(void)
@@ -221,10 +222,10 @@ void fb_enemyerase(void)
 void fb_emvleft(void)
 {	
 	
-	if(ey<550)
+	if(ey<540)
 	{
 	fb_enemyerase();
-	ey=ey+15;
+	ey=ey+30;
 	fb_enemydraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -237,10 +238,10 @@ void fb_emvleft(void)
 void fb_emvright(void)
 {
 	
-	if(ey>50)
+	if(ey>60)
 	{
 	fb_enemyerase();
-	ey=ey-15;
+	ey=ey-30;
 	fb_enemydraw();
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -250,6 +251,8 @@ void fb_emvright(void)
 	
 }
 
+static int count=0;
+
 void* fb_enemymove(void)
 {
 		
@@ -258,8 +261,87 @@ void* fb_enemymove(void)
 			fb_emvleft();
 		else
 			fb_emvright();
-		
-	
+		if(count==10){
+		fb_bulletshow();
+		count=0;
+		}
+		else
+		count++;
+}
+
+void fb_bulletshow(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+	if(bulletnum==99)
+		bulletnum=0;
+	bullet[bulletnum].exist=1;
+	bullet[bulletnum].bx=ex+114;
+	bullet[bulletnum].by=ey;
+	// fb clear - black
+    for(coor_y = bullet[bulletnum].by-5; coor_y < bullet[bulletnum].by+5; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[bulletnum].bx;
+        for(coor_x = 0; coor_x < 20; coor_x++)
+        {
+            *ptr++  =   0xFFFFFF;
+        }
+    }
+	bulletnum++;
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
+
+void fb_bulleterase(void)
+{
+	int num=bulletnum;
+	int coor_y = 0;
+	int coor_x = 0;
+	// fb clear - black
+    for(coor_y =0; coor_y < fbHeight; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+100;
+        for(coor_x = 100; coor_x < 1024-30; coor_x++)
+        {
+            *ptr++  =   0x000000;
+        }
+    }
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
+
+void fb_bulletmove(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+	for(int i=0;i<100;i++){
+		if(bullet[i].exist==1)
+		{
+			bullet[i].bx+=20;
+
+		if(bullet[i].bx>983)
+		{
+			bullet[i].exist=0;
+		}
+		else
+		{		
+			for(coor_y = bullet[i].by-5; coor_y < bullet[i].by+5; coor_y++) 
+			{
+        		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[i].bx;
+        		for(coor_x = 0; coor_x < 20; coor_x++)
+        		{
+            		*ptr++  =   0xFFFFFF;
+        		}
+    		}
+		}
+		}
+	}
+	usleep(50000);
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
 }
 
 void fb_doubleBufSwap(void)
