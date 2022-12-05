@@ -18,7 +18,14 @@ int main(void){
 		return 0;
 	}
     
+    
+    int x_init=0;
+    int y_init=285;
+    for(int i=0;i<5;i++)
+    {
     fb_clear();
-    fb_draw();
+    fb_draw(x_init+10*i,y_init+10*i);
+    usleep(1000000);
+    }
     fb_close();
 }

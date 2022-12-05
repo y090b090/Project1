@@ -98,14 +98,14 @@ void fb_clear(void)
 	#endif
 }
 
-void fb_draw(void)
+void fb_draw(int x,int y)
 {
 	int coor_y = 0;
 	int coor_x = 0;
 	// fb clear - black
-    for(coor_y = 285; coor_y < 315; coor_y++) 
+    for(coor_y = y; coor_y < y+30; coor_y++) 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+994;
         for(coor_x = 0; coor_x < 30; coor_x++)
         {
             *ptr++  =   0xFFFFFF;
