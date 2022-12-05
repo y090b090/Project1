@@ -1,5 +1,5 @@
 LIBRARY_DIR := libbmp libbuzzer libfbdev 
-APPS_DIR := bmpViewer bmpAnimation jpgViewer jpgAnimation
+APPS_DIR := bmpViewer bmpAnimation jpgViewer jpgAnimation airplane
 
 all: library apps
 	
