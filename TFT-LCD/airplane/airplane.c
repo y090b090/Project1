@@ -19,13 +19,9 @@ int main(void){
 	}
     
     
-    int x_init=0;
+    int x_init=1024-30;
     int y_init=285;
-    for(int i=0;i<5;i++)
-    {
-    fb_clear();
-    fb_draw(x_init+10*i,y_init+10*i);
-    usleep(1000000);
-    }
+    fb_playerdraw();
+   
     fb_close();
 }
