@@ -9,4 +9,5 @@ void fb_clear(void);
 void fb_write(char *picData, int picWidth, int picHeight);
 void fb_write_reverse(char *picData, int picWidth, int picHeight);
 void fb_doubleBufSwap(void);
+void fb_draw(void);
 #endif

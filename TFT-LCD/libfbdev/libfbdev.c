@@ -98,6 +98,24 @@ void fb_clear(void)
 	#endif
 }
 
+void fb_draw(void)
+{
+	int coor_y = 0;
+	int coor_x = 0;
+	// fb clear - black
+    for(coor_y = 285; coor_y < 315; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
+        for(coor_x = 0; coor_x < 30; coor_x++)
+        {
+            *ptr++  =   0xFFFFFF;
+        }
+    }
+	#ifdef ENABLED_DOUBLE_BUFFERING
+		fb_doubleBufSwap();
+	#endif
+}
+
 void fb_doubleBufSwap(void)
 {
 	if (currentEmptyBufferPos == 0)

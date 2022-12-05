@@ -19,5 +19,6 @@ int main(void){
 	}
     
     fb_clear();
+    fb_draw();
     fb_close();
 }
