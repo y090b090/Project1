@@ -13,20 +13,22 @@ int lcdtextwrite(const char *str1,const char *str2,int lineFlag){
     perror("driver(//dev//peritextlcd)openerror.\n");
     return 1;
     }
+    stlcd.cmd=CMD_WRITE_STRING;
+    write(fd,&stlcd,sizeof(stTextLCD));
     if(linenum==0){
         stlcd.cmdData=CMD_DATA_WRITE_BOTH_LINE;
         len1 = strlen(str1);
         if ( len1 > COLUMN_NUM)
-        memcpy(stlcd.TextData[stlcd.cmdData - 1], str1, COLUMN_NUM);
+        memcpy(stlcd.TextData[stlcd.cmdData], str1, COLUMN_NUM);
         else
-        memcpy(stlcd.TextData[stlcd.cmdData - 1], str1, len1);
+        memcpy(stlcd.TextData[stlcd.cmdData], str1, len1);
         stlcd.cmd=CMD_WRITE_STRING;
         write(fd,&stlcd,sizeof(stTextLCD));
         len2 = strlen(str2);
         if ( len2 > COLUMN_NUM)
-        memcpy(stlcd.TextData[stlcd.cmdData + COLUMN_NUM - 1], str2, COLUMN_NUM);
+        memcpy(stlcd.TextData[stlcd.cmdData + 1], str2, COLUMN_NUM);
         else
-        memcpy(stlcd.TextData[stlcd.cmdData + COLUMN_NUM - 1], str2, len2);
+        memcpy(stlcd.TextData[stlcd.cmdData + 1], str2, len2);
         stlcd.cmd=CMD_WRITE_STRING;
         write(fd,&stlcd,sizeof(stTextLCD));
     }
