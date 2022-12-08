@@ -97,6 +97,6 @@ int bgm(void)
 
 int bullet(void)
 {
-	for (int hz =300 ; hz <= 750; hz++)	buzzerPlaySong(hz,0);
-    for (int hz =750; hz >= 300; hz--)	buzzerPlaySong(hz,50);
+	buzzerPlaySong(750,50);
+	buzzerPlaySong(300,50);
 }
