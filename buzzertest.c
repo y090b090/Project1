@@ -1,8 +1,11 @@
 #include "buzzer.h"
-#include "pitches.h"
 
 int main(void){
     buzzerInit();
-    bgm();
+
+    while(1)
+    {
+    bullet();
+    }
     buzzerExit();
 }

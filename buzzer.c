@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <dirent.h>
 #include "buzzer.h"
-#include "pitches.h"
 
 #define MAX_SCALE_STEP 8
 #define BUZZER_BASE_SYS_PATH "/sys/bus/platform/devices/"
@@ -94,4 +93,10 @@ int bgm(void)
 	buzzerPlaySong(262,50);
 	buzzerPlaySong(392,50);
 	buzzerPlaySong(349,50);
+}
+
+int bullet(void)
+{
+	for (int hz =300 ; hz <= 750; hz++)	buzzerPlaySong(hz,0);
+    for (int hz =750; hz >= 300; hz--)	buzzerPlaySong(hz,50);
 }
