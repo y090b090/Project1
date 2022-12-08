@@ -9,6 +9,7 @@
 #include <linux/fb.h>   // for fb_var_screeninfo, FBIOGET_VSCREENINFO
 #include "libfbdev.h"
 #include <pthread.h>
+#include "textlcd.h"
 
 #define FBDEV_FILE "/dev/fb0"
 
@@ -118,11 +119,41 @@ void fb_playerdraw(void)
     for(coor_y = y-15; coor_y < y+15; coor_y++) 
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
-        for(coor_x = 0; coor_x < 30; coor_x++)
+        for(coor_x = 0; coor_x < 31; coor_x++)
         {
-            *ptr++  =   0xFFFFFF;
+            *ptr++  =   0x00B07B;
         }
     }
+	for(coor_y=y-8;coor_y<y-3;coor_y++)
+	{
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
+		for(coor_x = 0; coor_x < 11; coor_x++)
+				*ptr++=0x000000;
+	}
+	for(coor_y=y+8;coor_y>y+3;coor_y--)
+	{
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
+		for(coor_x = 0; coor_x < 11; coor_x++)
+				*ptr++=0x000000;
+	}
+	for(coor_y=y-7;coor_y<y-5;coor_y++)
+	{
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-10;
+		for(coor_x = 0; coor_x < 5; coor_x++)
+				*ptr++=0x000000;
+	}
+	for(coor_y=y+7;coor_y>y+5;coor_y--)
+	{
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-10;
+		for(coor_x = 0; coor_x < 5; coor_x++)
+				*ptr++=0x000000;
+	}
+	for(coor_y=y-5;coor_y<y+6;coor_y++)
+	{
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-7;
+		for(coor_x = 0; coor_x < 2; coor_x++)
+				*ptr++=0x000000;
+	}
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
@@ -195,7 +226,31 @@ void fb_enemydraw(void)
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
         for(coor_x = 0; coor_x < 100; coor_x++)
         {
-            *ptr++  =   0xFFFFFF;
+            *ptr++  =   0x783C00;
+        }
+    }
+	for(coor_y = ey-35; coor_y < ey-19; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+50;
+        for(coor_x = 0; coor_x < 15; coor_x++)
+        {
+            *ptr++  =   0x000000;
+        }
+    }
+	for(coor_y = ey+35; coor_y > ey+19; coor_y--) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+50;
+        for(coor_x = 0; coor_x < 15; coor_x++)
+        {
+            *ptr++  =   0x000000;
+        }
+    }
+	for(coor_y = ey-25; coor_y < ey+26; coor_y++) 
+	{
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+18;
+        for(coor_x = 0; coor_x < 13; coor_x++)
+        {
+            *ptr++  =   0xFF0000;
         }
     }
 	#ifdef ENABLED_DOUBLE_BUFFERING
@@ -285,7 +340,7 @@ void fb_bulletshow(void)
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[bulletnum].bx;
         for(coor_x = 0; coor_x < 20; coor_x++)
         {
-            *ptr++  =   0xFFFFFF;
+            *ptr++  =   0xF7E600;
         }
     }
 	bulletnum++;
@@ -333,7 +388,7 @@ int fb_bulletmove(void)
         		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[i].bx;
         		for(coor_x = 0; coor_x < 20; coor_x++)
         		{
-            		*ptr++  =   0xFFFFFF;
+            		*ptr++  =   0xF7E600;
         		}
     		}
 		}

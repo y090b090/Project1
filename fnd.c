@@ -5,7 +5,24 @@
 #include <unistd.h>
 #include <time.h>
 #include "fnd.h"
+#include <pthread.h>
 #define FND_DRIVER_NAME "/dev/perifnd"
+
+int fndInit(void)
+{
+	pthread_t tid;
+	pthread_create(&tid,NULL,&fndtime,NULL);
+}
+
+void *fndtime(void *arg)
+{	int i=0;
+	while(1)
+	{
+		fndDisp(i,0);
+		i++;
+		sleep(1);
+	}
+}
 
 int fndMode(int num, char mode)
 {

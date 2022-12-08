@@ -16,5 +16,7 @@ char DataValid[FND_DATA_BUFF_LEN];//숫자0or1
 
 int fndDisp(int num, int dotflag);
 int fndMode(int num, char mode);
+void *fndtime(void *arg);
+int fndInit(void);
 
 #endif//__FND_DRV_H__
