@@ -3,10 +3,10 @@
 
 int main(int argc , char **argv)
 {
-    lcdtextwrite("he","hi", 2);
+    lcdtextwrite("hello","world", 2);
     sleep(1);
-    lcdtextwrite("i'm mh","ss",1);
+    lcdtextwrite("come","back",1);
     sleep(1);
-    lcdtextwrite("hello","hello",0);
+    lcdtextwrite("he","hi",0);
     sleep(1);
 }
