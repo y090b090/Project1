@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include "buzzer.h"
+#include "pitches.h"
 
 #define MAX_SCALE_STEP 8
 #define BUZZER_BASE_SYS_PATH "/sys/bus/platform/devices/"
@@ -38,9 +39,9 @@ return ifNotFound;
 }
 
 
-int buzzerPlaySong(int scale) // 주파수를 받아주고, enable에 1의 값을 넣어줘
+int buzzerPlaySong(int scale, int i) // 주파수를 받아주고, enable에 1의 값을 넣어줘
 {
-       	sprintf(EnablePath,"%s%s",gBuzzerBaseSysDir,BUZZER_ENABLE_NAME);
+    sprintf(EnablePath,"%s%s",gBuzzerBaseSysDir,BUZZER_ENABLE_NAME);
 	sprintf(FrequencyPath,"%s%s",gBuzzerBaseSysDir,BUZZER_FREQUENCY_NAME);
 	
 	fdEna=open(EnablePath,O_WRONLY);
@@ -48,6 +49,7 @@ int buzzerPlaySong(int scale) // 주파수를 받아주고, enable에 1의 값�
 	write(fdEna, &"1", 1);
 	
 	dprintf(fdFre, "%d", scale);
+	usleep(i*5000);
     return 0;
 }
 
@@ -64,4 +66,32 @@ int buzzerExit(void)
     close(fdEna);
 
     return 0;
+}
+
+int bgm(void)
+{
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(415,50);
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(466,50);
+	buzzerPlaySong(311,50);
+
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(523,50);
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(554,50);
+	buzzerPlaySong(523,50);
+	buzzerPlaySong(415,50);
+
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(523,50);
+	buzzerPlaySong(698,50);
+	buzzerPlaySong(349,50);
+	buzzerPlaySong(311,50);
+	buzzerPlaySong(311,50);
+	buzzerPlaySong(262,50);
+	buzzerPlaySong(392,50);
+	buzzerPlaySong(349,50);
 }
