@@ -2,7 +2,7 @@
 
 static unsigned int ledValue = 0;
 static int fd = 0;
-int num=8;
+int num=2;
 int ledOnOff (int ledNum, int onOff)
 {
 	int i=1;
@@ -18,7 +18,7 @@ int ledOnOff (int ledNum, int onOff)
 int ledallon(void)
 {
 	unsigned int data =0;
-	data=strtol("0xff",NULL,16);
+	data=strtol("0x07",NULL,16);
 	write(fd,&data,4);
 	ledValue=data;
 	return ledValue;

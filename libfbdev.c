@@ -29,6 +29,7 @@ static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
 static int bulletnum=0;
+static int hp=3;
 
 #define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
 #define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
@@ -312,7 +313,7 @@ void fb_bulleterase(void)
 	#endif
 }
 
-void fb_bulletmove(void)
+int fb_bulletmove(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
@@ -337,11 +338,15 @@ void fb_bulletmove(void)
     		}
 		}
 		}
+		int check=fb_playerfall(i);
+		if(check==0)
+			return 0;
 	}
 	usleep(50000);
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+	return 1;
 }
 
 void fb_doubleBufSwap(void)
@@ -417,4 +422,31 @@ void fb_write(char* picData, int picWidth, int picHeight)
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
+}
+
+int fb_playerfall(int num)
+{
+	if((bullet[num].bx==974)&&(((y-15)<(bullet[num].by+5))&((y+15)>(bullet[num].by-5))))
+	{
+		fb_bulleterase();
+		for(bulletnum=0;bulletnum<100;bulletnum++)
+		{
+		bullet[bulletnum].exist=0;
+		bullet[bulletnum].bx=ex+114;
+		bullet[bulletnum].by=ey;
+		}
+		bulletnum=0;
+		ledminus();
+		hp--;
+		if(hp==0)
+			return 0;
+		for(int i=0;i<3;i++)
+		{
+			fb_playererase();
+			usleep(300000);
+			fb_playerdraw();
+			usleep(300000);
+		}
+	}
+	return 1;
 }

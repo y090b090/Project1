@@ -9,6 +9,7 @@
 #include "accelMagGyro.h"
 
 
+
 int main(void){
     int screen_width;
     int screen_height;
@@ -24,6 +25,8 @@ int main(void){
     fb_clear();
     fb_playerdraw();
     fb_enemydraw();
+    ledLibInit();
+    ledallon();
     while(1)
     {
         if(Gyro()==-1)
@@ -32,7 +35,9 @@ int main(void){
             fb_pmvright();
         fb_enemymove();
        fb_bulleterase();
-        fb_bulletmove();
+        int check=fb_bulletmove();
+        if(check==0)
+            break;
     }
    
     fb_close();
