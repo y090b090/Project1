@@ -5,7 +5,7 @@ int main(void){
 
     while(1)
     {
-    bullet();
+    bgm();
     }
     buzzerExit();
 }
