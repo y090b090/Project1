@@ -10,23 +10,24 @@
 #include <sys/ioctl.h> 
 #include <sys/msg.h>
 #include <pthread.h>
-#include "touch.h"
+#include <sys/ipc.h>
 #define INPUT_DEVICE_LIST "/dev/input/event"
 #define PROBE_FILE "/proc/bus/input/devices" 
-#define HAVE_TO_FIND_1 "N: Name=\"ecube-touch\"\n"
-#define HAVE_TO_FIND_2 "H: Handlers=kbd event"
+#define HAVE_TO_FIND_1 "N: Name=\"WaverShare WaverShare TouchScreen\"\n"
+#define HAVE_TO_FIND_2 "H: Handlers=mouse0 event"
 
 #define MESSAGE_ID 1122
 struct input_event A;
-struct TOUCH_MST_T B;
+struct BUTTON_MSG_T B;
 
-
-struct  TOUCH_MST_T
+struct BUTTON_MSG_T
 {
 	long int messageNum;
 	int keyInput;
 	int pressed;
 	unsigned short type;
+	int x;
+	int y;
 };
 
 
