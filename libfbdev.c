@@ -10,7 +10,7 @@
 #include "libfbdev.h"
 #include <pthread.h>
 #include "textlcd.h"
-
+#include "buzzer.h"
 #define FBDEV_FILE "/dev/fb0"
 
 struct {
@@ -327,6 +327,7 @@ void* fb_enemymove(void)
 
 void fb_bulletshow(void)
 {
+	bulletsound();
 	int coor_y = 0;
 	int coor_x = 0;
 	if(bulletnum==99)

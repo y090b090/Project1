@@ -95,8 +95,9 @@ int bgm(void)
 	buzzerPlaySong(349,50);
 }
 
-int bullet(void)
+int bulletsound(void)
 {
-	buzzerPlaySong(750,50);
-	buzzerPlaySong(300,50);
+	buzzerPlaySong(750,5);
+	buzzerPlaySong(300,5);
+	buzzerStopSong();
 }
