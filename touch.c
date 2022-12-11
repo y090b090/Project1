@@ -77,17 +77,17 @@ void* touchThFunc(void *arg)
         if (A.type == EV_ABS)
         {
             //무슨 값 들어옴
-            if (A.code == ABS_MT_POSITION_x)
+            if (A.code == ABS_MT_POSITION_X)
             {
                 x =  A.value;
             }
-            else if (A.code == ABS_MT_POSITION_y)
+            else if (A.code == ABS_MT_POSITION_Y)
             {
                 y =  A.value;
             }
         }
 
-        else if ((A.type == EV_key) && (A.code == BTN_TOUCH) )
+        else if ((A.type == EV_KEY) && (A.code == BTN_TOUCH) )
         {
             B.x = x;
             B.y = y;
