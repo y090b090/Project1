@@ -1,7 +1,7 @@
 #include "button.h"
 
 char buttonPath[200]={0,};
-int fd,msgID;
+int ft,msgID;
 pthread_t buttonTh_id;
 int probeButtonPath(char *newPath)
 {
@@ -47,7 +47,7 @@ int buttonInit(void)
         return 0;
     }
         
-    fd=open (buttonPath, O_RDONLY);
+    ft=open (buttonPath, O_RDONLY);
     msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
     if(msgID == -1){
             printf("cannot find\n");
@@ -70,7 +70,7 @@ void* buttonThFunc(void *arg)
     B.messageNum=1;
     while(1)
     {
-        readSize=read(fd,&A,sizeof(A));
+        readSize=read(ft,&A,sizeof(A));
         if(readSize!=sizeof(A)){
             continue;
         }
@@ -79,5 +79,5 @@ void* buttonThFunc(void *arg)
         B.type=A.type;
         msgsnd(msgID,&B,sizeof(B)-sizeof(long int),0);
     }
-    close(fd);
+    close(ft);
 }
