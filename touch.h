@@ -15,7 +15,7 @@
 
 #define INPUT_DEVICE_LIST "/dev/input/event"
 #define PROBE_FILE "/proc/bus/input/devices" 
-#define HAVE_TO_FIND_1 "N: Name=\"WaverShare WaverShare TouchScreen\"\n"
+#define HAVE_TO_FIND_1 "N: Name=\"WaverShare WaverShare Touchscreen\"\n"
 #define HAVE_TO_FIND_2 "H: Handlers=mouse0 event4"
 
 #define MESSAGE_ID 1122
