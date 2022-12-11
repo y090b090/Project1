@@ -1,4 +1,3 @@
-
 #include "touch.h"
 
 int main(void)
@@ -15,23 +14,23 @@ int main(void)
 					{
 						if(B.x <100 && B.y < 100)
 						{
-							printf("좌측상단터치함");
+							printf("left up touch");
 						}
 						else if(B.x <500 && B.y < 100)
 						{
-							printf("우측상단터치함");
+							printf("right up touch");
 						}
 						else if(B.x <100 && B.y < 300)
 						{
-							printf("좌측하단터치함");
+							printf("left down touch");
 						}
 						else if(B.x <100 && B.y < 100)
 						{
-							printf("우측하단터치함");
+							printf("right down touch");
 						}
 						else
 						{
-							printf("중단 터치한듯? 정확한 위치는 x:%d y:%d \r\n", B.x, B.y);
+							printf("real position x:%d y:%d \r\n", B.x, B.y);
 						}
 					}
 
