@@ -13,6 +13,10 @@ int lcdtextwrite(const char *str1,const char *str2,int lineFlag){
     perror("driver(//dev//peritextlcd)openerror.\n");
     return 1;
     }
+    stlcd.cmd=CMD_DISPLAY_MODE;
+    stlcd.cmdData=BIT_DISPLAY_MODE_CURSOR_DISP;
+    write(fd,&stlcd,sizeof(stTextLCD));
+    memset(&stlcd,0,sizeof(stTextLCD));
     stlcd.cmd=CMD_WRITE_STRING;
     write(fd,&stlcd,sizeof(stTextLCD));
     if(linenum==0){

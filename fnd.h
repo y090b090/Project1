@@ -6,7 +6,6 @@
 #define MODE_TIME_DIS 't'
 #define MODE_COUNT_DIS 'c'
 
-
 typedef struct FNDWriteDataForm_tag
 {
 char DataNumeric[FND_DATA_BUFF_LEN];//숫자0-9
@@ -18,5 +17,6 @@ int fndDisp(int num, int dotflag);
 int fndMode(int num, char mode);
 void *fndtime(void *arg);
 int fndInit(void);
+int fndOff(void);
 
 #endif//__FND_DRV_H__

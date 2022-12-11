@@ -8,20 +8,29 @@
 #include <pthread.h>
 #define FND_DRIVER_NAME "/dev/perifnd"
 
+pthread_t tid;
+int score=0;
+
 int fndInit(void)
 {
-	pthread_t tid;
 	pthread_create(&tid,NULL,&fndtime,NULL);
 }
 
 void *fndtime(void *arg)
-{	int i=0;
+{	score=0;
 	while(1)
 	{
-		fndDisp(i,0);
-		i++;
+		fndDisp(score,0);
+		score++;
 		sleep(1);
 	}
+}
+
+int fndOff(void)
+{
+	fndDisp(0,0);
+	pthread_cancel(tid);
+	return score;
 }
 
 int fndMode(int num, char mode)

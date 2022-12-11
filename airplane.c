@@ -10,9 +10,10 @@
 #include "fnd.h"
 #include "button.h"
 #include "buzzer.h"
+#include "textlcd.h"
+
 int main(void){
-    fndInit();
-    buzzerInit();
+    //buzzerInit();
     int screen_width;
     int screen_height;
     int bits_per_pixel;
@@ -20,6 +21,7 @@ int main(void){
     int cols = 0, rows = 0;
 	char *data;
     buttonInit();
+    fndDisp(0,0);
     int msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
     if(msgID == -1){
             printf("cannot find\n");
@@ -46,6 +48,7 @@ int main(void){
             fb_enemydraw();
             ledLibInit();
             ledallon();
+            fndInit();
             while(1)
             {
                 if(Gyro()==-1)
@@ -56,7 +59,10 @@ int main(void){
             fb_bulleterase();
             int check=fb_bulletmove();
             if(check==0)
+            {  
                 break;
+                
+            }
             }
             fb_close();
         }
