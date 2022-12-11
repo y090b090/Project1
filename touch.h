@@ -4,17 +4,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <linux/input.h>
 #include <unistd.h>
 #include <fcntl.h> 
 #include <sys/ioctl.h> 
 #include <sys/msg.h>
 #include <pthread.h>
 #include <sys/ipc.h>
+#include <linux/module.h>
+#include <linux/input.h>
+
 #define INPUT_DEVICE_LIST "/dev/input/event"
 #define PROBE_FILE "/proc/bus/input/devices" 
 #define HAVE_TO_FIND_1 "N: Name=\"WaverShare WaverShare TouchScreen\"\n"
-#define HAVE_TO_FIND_2 "H: Handlers=mouse0 event"
+#define HAVE_TO_FIND_2 "H: Handlers=mouse0 event4"
 
 #define MESSAGE_ID 1122
 struct input_event A;
