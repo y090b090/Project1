@@ -6,6 +6,6 @@ int buzzerPlaySong(int scale, int i);
 int buzzerStopSong(void);
 int buzzerExit(void);
 int bgm(void);
-int bullet(void);
+int bulletsound(void);
 
 #endif

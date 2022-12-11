@@ -9,9 +9,10 @@
 #include "accelMagGyro.h"
 #include "fnd.h"
 #include "button.h"
-
+#include "buzzer.h"
 int main(void){
     fndInit();
+    buzzerInit();
     int screen_width;
     int screen_height;
     int bits_per_pixel;
