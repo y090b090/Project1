@@ -11,8 +11,10 @@
 #include "button.h"
 #include "buzzer.h"
 #include "textlcd.h"
+#include "libjpeg/jpeglib.h"
 
 int main(void){
+    menuviewer();
     //buzzerInit();
     int screen_width;
     int screen_height;
@@ -60,6 +62,7 @@ int main(void){
             int check=fb_bulletmove();
             if(check==0)
             {  
+                gameoverviewer();
                 break;
                 
             }

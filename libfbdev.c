@@ -327,7 +327,7 @@ void* fb_enemymove(void)
 
 void fb_bulletshow(void)
 {
-	bulletsound();
+	//bulletsound();
 	int coor_y = 0;
 	int coor_x = 0;
 	if(bulletnum==99)
