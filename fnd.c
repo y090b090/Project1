@@ -13,6 +13,7 @@ int score=0;
 
 int fndInit(void)
 {
+	tid=0;
 	pthread_create(&tid,NULL,&fndtime,NULL);
 }
 

@@ -24,4 +24,5 @@ void fb_bulletshow(void);
 void fb_bulleterase(void);
 int fb_bulletmove(void);
 int fb_playerfall(int num);
+void fb_varinit(void);
 #endif

@@ -97,6 +97,7 @@ void fb_clear(void)
 {
 	int coor_y = 0;
 	int coor_x = 0;
+
 	// fb clear - black
     for(coor_y = 0; coor_y < fbHeight; coor_y++) 
 	{
@@ -327,7 +328,7 @@ void* fb_enemymove(void)
 
 void fb_bulletshow(void)
 {
-	//bulletsound();
+	bulletsound();
 	int coor_y = 0;
 	int coor_x = 0;
 	if(bulletnum==99)
@@ -418,6 +419,22 @@ void fb_doubleBufSwap(void)
 		currentEmptyBufferPos = 0;		
 	}
 	ioctl(fbfd, FBIOPUT_VSCREENINFO, &fbInfo);	//슉!
+}
+
+void fb_varinit(void)
+{
+	currentEmptyBufferPos = 0;
+	fbHeight=0;	
+	fbWidth=0;	
+	x=1024;
+	y=300;
+	ex=0;
+	ey=300;
+	bulletnum=0;
+	hp=3;
+	for(int i=0;i<100;i++){
+		bullet[i].exist=0;
+	}
 }
 
 void fb_close(void)

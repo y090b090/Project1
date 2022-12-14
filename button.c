@@ -60,7 +60,7 @@ int buttonInit(void)
 
 int buttonExit(void)
 {
-    pthread_join(buttonTh_id,NULL);
+    pthread_cancel(buttonTh_id);
     return 0;
 }
 

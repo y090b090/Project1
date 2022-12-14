@@ -26,6 +26,8 @@ int ledallon(void)
 int ledminus(void)
 {
 	int i=1;
+	if(num==-1)
+		num=2;
 	
 	i = i<<num;
 	ledValue &=(~i);
