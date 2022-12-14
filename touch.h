@@ -18,11 +18,11 @@
 #define HAVE_TO_FIND_1 "N: Name=\"WaveShare WaveShare Touchscreen\"\n"
 #define HAVE_TO_FIND_2 "H: Handlers=mouse0 event4"
 
-#define MESSAGE_ID 1122
+#define MESSAGE_ID 2211
 struct input_event A;
-struct BUTTON_MSG_T B;
+struct TOUCH_MSG_T B;
 
-struct BUTTON_MSG_T
+struct TOUCH_MSG_T
 {
 	long int messageNum;
 	int keyInput;

@@ -1,7 +1,7 @@
 #include "touch.h"
 
 char touchPath[200]={0,};
-int fd,msgID;
+int fc,msgid;
 pthread_t touchTh_id;
 int probetouchPath(char *newPath)
 {
@@ -44,9 +44,9 @@ int touchInit(void)
         return 0;
     }
         
-    fd=open (touchPath, O_RDONLY);
-    msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
-    if(msgID == -1){
+    fc=open (touchPath, O_RDONLY);
+    msgid = msgget (MESSAGE_ID, IPC_CREAT|0666);
+    if(msgid == -1){
             printf("cannot find\n");
             return 1;
     }
@@ -70,7 +70,7 @@ void* touchThFunc(void *arg)
     B.keyInput=999;
     while(1)
     {
-        readSize=read(fd,&A,sizeof(A));
+        readSize=read(fc,&A,sizeof(A));
         if(readSize!=sizeof(A)){
             continue;
         }
@@ -100,7 +100,7 @@ void* touchThFunc(void *arg)
                 B.pressed = 1;
             }
         }
-        msgsnd(msgID,&B,sizeof(B)-sizeof(long int),0); 
+        msgsnd(msgid,&B,sizeof(B)-sizeof(long int),0); 
     }
-    close(fd);
+    close(fc);
 }

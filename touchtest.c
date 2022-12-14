@@ -3,9 +3,9 @@
 int main(void)
 {
 	touchInit();
-	int msgID = msgget (MESSAGE_ID,IPC_CREAT|0666);
+	int msgid = msgget (MESSAGE_ID,IPC_CREAT|0666);
 	while(1){
-		msgrcv(msgID, &B,sizeof(B)-sizeof(long int),0, 0);
+		msgrcv(msgid, &B,sizeof(B)-sizeof(long int),0, 0);
 		switch(B.keyInput)
 		{
 			case 999:
