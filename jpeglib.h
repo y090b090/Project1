@@ -56,7 +56,8 @@
 #ifndef D_MAX_BLOCKS_IN_MCU
 #define D_MAX_BLOCKS_IN_MCU   10 /* decompressor's limit on blocks per MCU */
 #endif
-int jpgviewer(void);
+int menuviewer(void);
+int gameoverviewer(void);
 /* Data structures for images (arrays of samples and of DCT coefficients).
  * On 80x86 machines, the image arrays are too big for near pointers,
  * but the pointer arrays can fit in near memory.
