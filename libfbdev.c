@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include "textlcd.h"
 #include "buzzer.h"
+#include <time.h>
 #define FBDEV_FILE "/dev/fb0"
 
 struct {
@@ -312,7 +313,7 @@ static int count=0;
 
 void* fb_enemymove(void)
 {
-		
+		//srand((unsigned int)time(NULL));
 		int random=rand()%2;
 		if(random==0)
 			fb_emvleft();
