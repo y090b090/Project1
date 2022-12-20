@@ -14,32 +14,26 @@
 #include <time.h>
 #define FBDEV_FILE "/dev/fb0"
 
-struct {
-	int exist;
-	int bx;
-	int by;
+struct { //총알의 정보를 담을 구조체
+	int exist; //총알이 존재하는가?
+	int bx; //총알의 x축 위치
+	int by; //총알의 y축 위치
 }bullet[100];
 
 static int fbfd;
 static int fbHeight=0;	//현재 하드웨어의 사이즈
 static int fbWidth=0;	//현재 하드웨어의 사이즈
-static int x=1024;
-static int y=300;
-static int ex=0;
-static int ey=300;
+static int x=1024; //Player 캐릭터의 x축 위치 >> 초기: x축 맨 위
+static int y=300; //Player 캐릭터의 y축 위치 >> 초기: y축 가운데
+static int ex=0; //Enemy 캐릭터의 x축 위치 >> 초기: x축 맨 아래
+static int ey=300; //Enemy 캐릭터의 y축 위치 >> 초기: y축 가운데
 static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
-static int bulletnum=0;
-static int hp=3;
+static int bulletnum=0; //Which bullet?
+static int hp=3; /
 
-#define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
-#define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
-static int currentEmptyBufferPos = 0;
-//1 Pixel 4Byte Framebuffer.
-
-
-int fb_init(int * screen_width, int * screen_height, int * bits_per_pixel, int * line_length)
+int fb_init(int * screen_width, int * screen_height, int * bits_per_pixel, int * line_length) //TFT 초기화
 {
     struct  fb_fix_screeninfo fbfix;
 
@@ -94,7 +88,7 @@ int fb_init(int * screen_width, int * screen_height, int * bits_per_pixel, int *
 	return 1;
 }
 
-void fb_clear(void)
+void fb_clear(void)//TFT Black으로 Clear
 {
 	int coor_y = 0;
 	int coor_x = 0;
@@ -113,22 +107,29 @@ void fb_clear(void)
 	#endif
 }
 
-void fb_playerdraw(void)
+void fb_playerdraw(void)//Player Character TFT에 그리기
 {
 	int coor_y = 0;
 	int coor_x = 0;
 	// fb clear - black
-    for(coor_y = y-15; coor_y < y+15; coor_y++) 
+    for(coor_y = y-15; coor_y < y+15; coor_y++) //플레이어 y좌표 기준으로 왼쪽으로 15부터 오른쪽으로 14까지 
 	{
-        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
+        unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;//플레이어 x좌표부터 -30부터 
         for(coor_x = 0; coor_x < 31; coor_x++)
         {
             *ptr++  =   0x00B07B;
         }
     }
+	//이하 플레이어 생김새 그리기용
 	for(coor_y=y-8;coor_y<y-3;coor_y++)
 	{
-		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
+		unsigned lo/캐릭터의 목숨
+
+#define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
+#define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
+static int currentEmptyBufferPos = 0;
+//1 Pixel 4Byte Framebuffer.
+ng *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
 		for(coor_x = 0; coor_x < 11; coor_x++)
 				*ptr++=0x000000;
 	}
@@ -162,11 +163,11 @@ void fb_playerdraw(void)
 
 }
 
-void fb_playererase(void)
+void fb_playererase(void)//플레이어 캐릭터 Black으로 Erase
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	// fb clear - black
+	
     for(coor_y = y-15; coor_y < y+15; coor_y++) 
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-30;
@@ -180,17 +181,17 @@ void fb_playererase(void)
 	#endif
 }
 
-void fb_pmvleft(void)
+void fb_pmvleft(void)//플레이어 왼쪽으로 이동
 {	
 	
-	if(y<580)
+	if(y<580)//화면 바깥으로 빠져나가는 것 방지
 	{
 	int coor_y = 0;
 	int coor_x = 0;
-	fb_playererase();
-	y=y+20;
-	fb_playerdraw();
-	usleep(50000);
+	fb_playererase();//플레이어 Erase
+	y=y+20;//플레이어 y좌표 20 추가 >> 왼쪽으로 20만큼 이동
+	fb_playerdraw();//이동한 좌표에 플레이어 Draw
+	usleep(50000);//너무 빠르게 이동하는 것 방지
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
@@ -198,17 +199,17 @@ void fb_pmvleft(void)
 	
 }
 
-void fb_pmvright(void)
+void fb_pmvright(void)//플레이어 오른쪽으로 이동
 {
 	
-	if(y>20)
+	if(y>20)//화면 바깥으로 빠져나가는 것 방지
 	{
 	int coor_y = 0;
 	int coor_x = 0;
-	fb_playererase();
-	y=y-20;
-	fb_playerdraw();
-	usleep(50000);
+	fb_playererase();//플레이어 Erase
+	y=y-20;//플레이어 y좌표 20 감소 >> 오른쪽으로 20만큼 이동
+	fb_playerdraw();//이동한 좌표에 플레이어 Draw
+	usleep(50000);//너무 빠르게 이동하는 것 방지
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
@@ -217,20 +218,21 @@ void fb_pmvright(void)
 }
 
 
-void fb_enemydraw(void)
+void fb_enemydraw(void)//Enemy Character TFT에 표시
 {
 	int coor_y = 0;
 	int coor_x = 0;
 	
 	// fb clear - black
-    for(coor_y = ey-50; coor_y < ey+50; coor_y++) 
+    for(coor_y = ey-50; coor_y < ey+50; coor_y++) // 적군 현재 y좌표 기준 왼쪽으로 50 오른쪽으로 49만큼 Draw
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y);
-        for(coor_x = 0; coor_x < 100; coor_x++)
+        for(coor_x = 0; coor_x < 100; coor_x++)//적군 현재 x좌표 기준으로 99까지 Draw
         {
             *ptr++  =   0x783C00;
         }
     }
+	//이하 적군 생김새 구현
 	for(coor_y = ey-35; coor_y < ey-19; coor_y++) 
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+50;
@@ -260,7 +262,7 @@ void fb_enemydraw(void)
 	#endif
 }
 
-void fb_enemyerase(void)
+void fb_enemyerase(void)//적군 Black으로 Clear
 {
 	int coor_y = 0;
 	int coor_x = 0;
@@ -277,15 +279,15 @@ void fb_enemyerase(void)
 	#endif
 }
 
-void fb_emvleft(void)
+void fb_emvleft(void)//적군 왼쪽으로 이동
 {	
 	
-	if(ey<540)
+	if(ey<540)//화면 바깥으로 나가는 것 방지
 	{
-	fb_enemyerase();
-	ey=ey+30;
-	fb_enemydraw();
-	usleep(50000);
+	fb_enemyerase();//적군 Erase
+	ey=ey+30;//적군 y축에 30 추가 >> 30만큼 왼쪽으로 이동
+	fb_enemydraw();//바뀐 위치에 적군 Draw
+	usleep(50000);//너무 빠르게 이동하는 것 방지
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
@@ -293,15 +295,15 @@ void fb_emvleft(void)
 	
 }
 
-void fb_emvright(void)
+void fb_emvright(void)//적군 오른쪽으로 이동
 {
 	
-	if(ey>60)
+	if(ey>60)//화면 바깥으로 나가는 것 방지
 	{
-	fb_enemyerase();
-	ey=ey-30;
-	fb_enemydraw();
-	usleep(50000);
+	fb_enemyerase();//적군 Erase
+	ey=ey-30;//적군 y축에 30 감소 >> 30만큼 오른쪽으로 이동
+	fb_enemydraw();//바뀐 위치에 적군 Draw
+	usleep(50000);//너무 빠르게 이동하는 것 방지
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
@@ -309,52 +311,49 @@ void fb_emvright(void)
 	
 }
 
-static int count=0;
+static int count=0;//총알 쏘는 시간 제한용 변수
 
-void* fb_enemymove(void)
+void* fb_enemymove(void)//적군 랜덤 방향으로 이동하며 총알 발사
 {
-		//srand((unsigned int)time(NULL));
-		int random=rand()%2;
-		if(random==0)
+		int random=rand()%2;//적군 왼쪽/오른쪽 이동 랜덤으로 결정
+		if(random==0)//랜덤으로 왼쪽/오른쪽 이동
 			fb_emvleft();
 		else
 			fb_emvright();
-		if(count==10){
-		fb_bulletshow();
-		count=0;
+		if(count==10){//10번 움직일 때
+		fb_bulletshow();//총알 발사
+		count=0;//count 초기화
 		}
 		else
-		count++;
+		count++;//움직인 횟수 측정
 }
 
-void fb_bulletshow(void)
+void fb_bulletshow(void)//총알 생성
 {
-	bulletsound();
+	bulletsound();//총알이 나갈 때 효과음 발생
 	int coor_y = 0;
 	int coor_x = 0;
-	if(bulletnum==99)
+	if(bulletnum==99)//bullet 구조체 100번째 넘어가는 것 방지
 		bulletnum=0;
-	bullet[bulletnum].exist=1;
-	bullet[bulletnum].bx=ex+114;
-	bullet[bulletnum].by=ey;
-	// fb clear - black
-    for(coor_y = bullet[bulletnum].by-5; coor_y < bullet[bulletnum].by+5; coor_y++) 
+	bullet[bulletnum].exist=1;//총알 상태 update
+	bullet[bulletnum].bx=ex+114;//총알의 x축: 적군의 x축 위치로부터 114 추가
+	bullet[bulletnum].by=ey;//총알의 y축: 적군의 y축 위치
+    for(coor_y = bullet[bulletnum].by-5; coor_y < bullet[bulletnum].by+5; coor_y++) //총알 y좌표 기준 -5~4좌표 까지 Draw
 	{
         unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[bulletnum].bx;
-        for(coor_x = 0; coor_x < 20; coor_x++)
+        for(coor_x = 0; coor_x < 20; coor_x++)//총알 x좌표 기준 19까지 Draw
         {
             *ptr++  =   0xF7E600;
         }
     }
-	bulletnum++;
+	bulletnum++;//bulletnum 추가 >> 다음 구조체 생성하기 위함
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
 }
 
-void fb_bulleterase(void)
+void fb_bulleterase(void)//총알 Erase
 {
-	int num=bulletnum;
 	int coor_y = 0;
 	int coor_x = 0;
 	// fb clear - black
@@ -371,22 +370,22 @@ void fb_bulleterase(void)
 	#endif
 }
 
-int fb_bulletmove(void)
+int fb_bulletmove(void)//총알 움직이기
 {
 	int coor_y = 0;
 	int coor_x = 0;
-	for(int i=0;i<100;i++){
-		if(bullet[i].exist==1)
+	for(int i=0;i<100;i++){//모든 총알에 실행
+		if(bullet[i].exist==1)//총알이 존재하면 실행
 		{
-			bullet[i].bx+=20;
+			bullet[i].bx+=20;//총알 x좌표 20 추가
 
-		if(bullet[i].bx>983)
+		if(bullet[i].bx>983)//총알이 한계점까지 도달하면 실행
 		{
-			bullet[i].exist=0;
+			bullet[i].exist=0;//총알 상태 update >> bullet is not exist
 		}
-		else
+		else//한계점에 도달하지 않았으면 실행
 		{		
-			for(coor_y = bullet[i].by-5; coor_y < bullet[i].by+5; coor_y++) 
+			for(coor_y = bullet[i].by-5; coor_y < bullet[i].by+5; coor_y++) //움직인 좌표에 총알 draw
 			{
         		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+bullet[i].bx;
         		for(coor_x = 0; coor_x < 20; coor_x++)
@@ -396,15 +395,15 @@ int fb_bulletmove(void)
     		}
 		}
 		}
-		int check=fb_playerfall(i);
-		if(check==0)
-			return 0;
+		int check=fb_playerfall(i);//총알이 Player와 닿았는지 확인, 게임 Over인지 Chech
+		if(check==0)//Game over면 실행
+			return 0; //0 반환
 	}
-	usleep(50000);
+	usleep(50000);//너무 빠르게 이동하는 것 방지
 	#ifdef ENABLED_DOUBLE_BUFFERING
 		fb_doubleBufSwap();
 	#endif
-	return 1;
+	return 1;//Game over가 아니면 1 반환
 }
 
 void fb_doubleBufSwap(void)
@@ -422,7 +421,7 @@ void fb_doubleBufSwap(void)
 	ioctl(fbfd, FBIOPUT_VSCREENINFO, &fbInfo);	//슉!
 }
 
-void fb_varinit(void)
+void fb_varinit(void)//변수 초기화용 >> 게임 다시 시작할 때 사용
 {
 	currentEmptyBufferPos = 0;
 	fbHeight=0;	
@@ -498,23 +497,23 @@ void fb_write(char* picData, int picWidth, int picHeight)
 	#endif
 }
 
-int fb_playerfall(int num)
+int fb_playerfall(int num)//플레이어가 총알에 맞았는지 확인
 {
-	if((bullet[num].bx==974)&&(((y-15)<(bullet[num].by+5))&((y+15)>(bullet[num].by-5))))
+	if((bullet[num].bx==974)&&(((y-15)<(bullet[num].by+5))&((y+15)>(bullet[num].by-5))))//총알 좌표와 플레이어 좌표 비교 >> 닿았으면 실행
 	{
-		fb_bulleterase();
-		for(bulletnum=0;bulletnum<100;bulletnum++)
+		fb_bulleterase();//총알 Erase
+		for(bulletnum=0;bulletnum<100;bulletnum++)//총알 초기화
 		{
 		bullet[bulletnum].exist=0;
 		bullet[bulletnum].bx=ex+114;
 		bullet[bulletnum].by=ey;
 		}
 		bulletnum=0;
-		ledminus();
-		hp--;
-		if(hp==0)
-			return 0;
-		for(int i=0;i<3;i++)
+		ledminus();//LED 하나 줄이기
+		hp--;//목숨 감소
+		if(hp==0)//목숨이 0 >> 게임 Over면 실행
+			return 0;//0 반환
+		for(int i=0;i<3;i++)//플레이어 3번 깜빡이기 >> 맞았음을 표현
 		{
 			fb_playererase();
 			usleep(300000);
@@ -522,5 +521,5 @@ int fb_playerfall(int num)
 			usleep(300000);
 		}
 	}
-	return 1;
+	return 1; //게임 Over가 아니면 1 반환
 }
