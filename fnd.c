@@ -11,36 +11,36 @@
 pthread_t tid;
 int score=0;
 
-int fndInit(void)
+int fndInit(void)	//fnd초기설정
 {
 	tid=0;
-	pthread_create(&tid,NULL,&fndtime,NULL);
+	pthread_create(&tid,NULL,&fndtime,NULL);		// 스레드 생성
 }
 
-void *fndtime(void *arg)
+void *fndtime(void *arg)	//스레드에서 수행될 함수
 {	score=0;
 	while(1)
 	{
-		fndDisp(score,0);
-		score++;
-		sleep(1);
+		fndDisp(score,0);	//fnd에 모두 0으로
+		score++;	//score의 값을 1씩 증가
+		sleep(1);	//1초주기
 	}
 }
 
-int fndOff(void)
-{
-	fndDisp(0,0);
-	pthread_cancel(tid);
-	return score;
+int fndOff(void)	//fnd끄기
+{	
+	fndDisp(0,0);	//fnd에 0으로
+	pthread_cancel(tid);	//스레드 종료
+	return score;	// score값 return
 }
 
-int fndMode(int num, char mode)
+int fndMode(int num, char mode)	//fnd 모드
 {
-	if(mode==MODE_STATIC_DIS)
+	if(mode==MODE_STATIC_DIS)	//static모드
 	{
-		fndDisp(num,0);
+		fndDisp(num,0);	//num값을 보여준다.
 	}
-	else if(mode==MODE_TIME_DIS)
+	else if(mode==MODE_TIME_DIS)	//time모드 시간을 보여준다.
 	{
 	struct tm *ptmcur;
 	time_t tTime;
@@ -55,7 +55,7 @@ int fndMode(int num, char mode)
 	fndDisp(num,0b1010);
 	}
 
-	else if(mode==MODE_COUNT_DIS)
+	else if(mode==MODE_COUNT_DIS)	//count 모드 1초씩 증가
 	{
 		int counter=0;
 	
@@ -78,10 +78,10 @@ int fndDisp(int num,int dotflag)//0-999999숫자,비트로인코딩된doton/off
 	stFndWriteForm stWriteData;
 	for(i=0;i<MAX_FND_NUM;i++)
 	{
-		stWriteData.DataDot[i]=(dotflag&(0x1<<i))?1:0;
+		stWriteData.DataDot[i]=(dotflag&(0x1<<i))?1:0;	//도트플래그 입력
 		stWriteData.DataValid[i]=1;
 	}
-	//if6fnd
+	//if6fnd 데이터의 값을 한자리씩 넣는과정
 	temp=num%1000000;stWriteData.DataNumeric[0]=temp/100000;
 	temp=num%100000;stWriteData.DataNumeric[1]=temp/10000;
 	temp=num%10000;stWriteData.DataNumeric[2]=temp/1000;
@@ -95,7 +95,7 @@ int fndDisp(int num,int dotflag)//0-999999숫자,비트로인코딩된doton/off
 		perror("driveropenerror.\n");
 		return 0;
 	}
-	write(fd,&stWriteData,sizeof(stFndWriteForm));
+	write(fd,&stWriteData,sizeof(stFndWriteForm)); //구조체의 값을 쓴다
 	close(fd);
 	return 1;
 }
