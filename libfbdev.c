@@ -31,7 +31,12 @@ static unsigned long   *pfbmap;	//프레임 버퍼
 static struct fb_var_screeninfo fbInfo;	//To use to do double buffering.
 static struct fb_fix_screeninfo fbFixInfo;	//To use to do double buffering.
 static int bulletnum=0; //Which bullet?
-static int hp=3; /
+static int hp=3; //캐릭터의 목숨
+
+#define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
+#define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
+static int currentEmptyBufferPos = 0;
+//1 Pixel 4Byte Framebuffer.
 
 int fb_init(int * screen_width, int * screen_height, int * bits_per_pixel, int * line_length) //TFT 초기화
 {
@@ -123,13 +128,7 @@ void fb_playerdraw(void)//Player Character TFT에 그리기
 	//이하 플레이어 생김새 그리기용
 	for(coor_y=y-8;coor_y<y-3;coor_y++)
 	{
-		unsigned lo/캐릭터의 목숨
-
-#define PFBSIZE 			(fbHeight*fbWidth*sizeof(unsigned long)*2)	//Double Buffering
-#define DOUBLE_BUFF_START	(fbHeight*fbWidth)	///Double Swaping
-static int currentEmptyBufferPos = 0;
-//1 Pixel 4Byte Framebuffer.
-ng *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
+		unsigned long *ptr =   pfbmap + currentEmptyBufferPos + (fbWidth * coor_y)+x-23;
 		for(coor_x = 0; coor_x < 11; coor_x++)
 				*ptr++=0x000000;
 	}
